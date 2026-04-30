@@ -11,9 +11,8 @@ Literally just a single bash function, `gwt` gives you an interactive, fuzzy-sea
 Copy, paste, and run this in your terminal to clone and install:
 
 ```bash
-git clone https://github.com/yourusername/gwt.git ~/.gwt && cd ~/.gwt && make install
+git clone https://github.com/LucasRouckhout/gwt.git ~/.gwt && cd ~/.gwt && make install
 ```
-*(Make sure to replace the GitHub URL with the actual repository URL once published!)*
 
 Then, either restart your terminal, open a new tab, or run:
 ```bash
