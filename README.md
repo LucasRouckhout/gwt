@@ -6,7 +6,7 @@ Literally just a single bash function, `gwt` gives you an interactive, fuzzy-sea
 
 ---
 
-## ⚡ Quick Start
+## Quick Start
 
 Run the following commands in your terminal to clone and install:
 
@@ -25,7 +25,7 @@ Now you're ready to go!
 
 ---
 
-## 🚀 Usage
+## Usage
 
 Whenever you are inside a git repository, simply run:
 
