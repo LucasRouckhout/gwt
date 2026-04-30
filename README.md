@@ -8,10 +8,12 @@ Literally just a single bash function, `gwt` gives you an interactive, fuzzy-sea
 
 ## ⚡ Quick Start
 
-Copy, paste, and run this in your terminal to clone and install:
+Run the following commands in your terminal to clone and install:
 
 ```bash
-git clone https://github.com/LucasRouckhout/gwt.git ~/.gwt && cd ~/.gwt && make install
+git clone https://github.com/LucasRouckhout/gwt.git ~/.gwt
+cd ~/.gwt
+make install
 ```
 
 Then, either restart your terminal, open a new tab, or run:
