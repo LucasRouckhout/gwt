@@ -38,24 +38,3 @@ gwt
 
 *(Requires `bash`, `git`, and `fzf` to be installed on your system)*
 
----
-
-## 🛠️ How it works (and why)
-
-Why is `gwt` a bash function and not a compiled binary or standalone shell script? 
-
-Because of the **`cd`** command! Standalone executables run in child processes and cannot change the current working directory of your active shell. By being a bash function that gets loaded directly into your environment, `gwt` can change your directory instantly and seamlessly.
-
-### What exactly does the installation do?
-
-The installation is incredibly lightweight and transparent. We don't hide anything. When you run `make install` (which executes `install.sh`), here is exactly what happens:
-
-1. It scans for your standard shell configuration files (like `~/.zshrc` and `~/.bashrc`).
-2. It prompts you to confirm if you want to install `gwt` into them.
-3. If you say yes, it appends a **single line** to the end of that file, pointing to the script in the repository:
-   ```bash
-   source "/absolute/path/to/cloned/repo/gwt.sh"
-   ```
-4. It does **not** move files around, it does **not** put binaries in `/usr/local/bin`, and it does **not** clutter your system. It simply tells your shell where to find the `gwt` function.
-
-**To uninstall:** Just delete that one `source` line from your `.zshrc` or `.bashrc` and delete the cloned folder. That's it!

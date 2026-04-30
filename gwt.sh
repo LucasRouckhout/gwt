@@ -56,13 +56,6 @@ gwt() {
     fi
   else
     # Change Directory Flow (Enter)
-    printf "\nChange directory to: \033[1;32m%s\033[0m\nConfirm? [Y/n]: " "$wt_path"
-    read -r confirm < /dev/tty
-    # We default to Yes for cd unless they explicitly type 'n'
-    if [[ "$confirm" =~ ^[Nn]$ ]]; then
-      echo "Aborted."
-    else
-      cd "$wt_path" || return 1
-    fi
+    cd "$wt_path" || return 1
   fi
 }
