@@ -20,8 +20,8 @@ gwt() {
   # --preview: Shows the git log for the selected worktree path
   local fzf_out
   fzf_out=$(git worktree list | fzf \
-    --header="[ENTER] cd to worktree  |  [CTRL-X] remove worktree" \
-    --expect=ctrl-x \
+    --header="[ENTER] cd to worktree  |  [CTRL-X] remove worktree  |  [CTRL-N] create worktree" \
+    --expect=ctrl-x,ctrl-n \
     --height=40% \
     --border \
     --preview="echo {} | awk '{print \$1}' | xargs -I % sh -c 'cd % && git log --oneline --graph --date=short --color --pretty=\"format:%C(auto)%cd %h%d %s\" -n 10'")
@@ -39,23 +39,48 @@ gwt() {
   
   # The path is the first column of the `git worktree list` output
   local wt_path=$(echo "$wt_line" | awk '{print $1}')
-  
-  if [ -z "$wt_path" ]; then
-    return 0
-  fi
 
   # 4. Action Routing
-  if [ "$key" = "ctrl-x" ]; then
-    # Removal Flow
-    printf "\nRemove git worktree at: \033[1;31m%s\033[0m\nConfirm? [y/N]: " "$wt_path"
-    read -r confirm < /dev/tty
-    if [[ "$confirm" =~ ^[Yy]$ ]]; then
-      git worktree remove "$wt_path"
-    else
+  if [ "$key" = "ctrl-n" ]; then
+    # Creation Flow
+    printf "\nEnter new worktree name: "
+    read -r wt_name < /dev/tty
+    if [ -z "$wt_name" ]; then
       echo "Aborted."
+      return 0
+    fi
+    printf "Enter location (default: .worktrees/%s): " "$wt_name"
+    read -r wt_loc < /dev/tty
+    if [ -z "$wt_loc" ]; then
+      wt_loc=".worktrees/$wt_name"
+    fi
+
+    if git rev-parse --verify --quiet "refs/heads/$wt_name" >/dev/null; then
+      git worktree add "$wt_loc" "$wt_name"
+    else
+      git worktree add -b "$wt_name" "$wt_loc"
+    fi
+
+    if [ $? -eq 0 ]; then
+      cd "$wt_loc" || return 1
     fi
   else
-    # Change Directory Flow (Enter)
-    cd "$wt_path" || return 1
+    if [ -z "$wt_path" ]; then
+      return 0
+    fi
+
+    if [ "$key" = "ctrl-x" ]; then
+      # Removal Flow
+      printf "\nRemove git worktree at: \033[1;31m%s\033[0m\nConfirm? [y/N]: " "$wt_path"
+      read -r confirm < /dev/tty
+      if [[ "$confirm" =~ ^[Yy]$ ]]; then
+        git worktree remove "$wt_path"
+      else
+        echo "Aborted."
+      fi
+    else
+      # Change Directory Flow (Enter)
+      cd "$wt_path" || return 1
+    fi
   fi
 }
