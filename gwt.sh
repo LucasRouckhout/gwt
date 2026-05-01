@@ -24,7 +24,7 @@ gwt() {
     --expect=ctrl-x,ctrl-n \
     --height=40% \
     --border \
-    --preview="echo {} | awk '{print \$1}' | xargs -I % sh -c 'cd % && git log --oneline --graph --date=short --color --pretty=\"format:%C(auto)%cd %h%d %s\" -n 10'")
+    --preview="git -C \"\$(echo {} | awk '{print \$1}')\" log --oneline --graph --date=short --color --pretty='format:%C(auto)%cd %h%d %s' -n 10")
 
   # If user pressed ESC, fzf_out is empty
   if [ -z "$fzf_out" ]; then
